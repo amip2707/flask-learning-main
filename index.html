@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Frontend Test</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Send Name to Flask </h2>
+
+    <input type="text" id="nameInput" placeholder="Enter your name">
+
+    <br>
+
+    <button onclick="sendData()">Send</button> 
+
+    <p id="result"></p>
+
+</div>
+
+<script>
+async function sendData() {
+
+    let name = document.getElementById("nameInput").value;
+
+    let response = await fetch("http://127.0.0.1:5000/user", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name: name })
+    });
+
+    let data = await response.json();
+
+    document.getElementById("result").innerText = data.status + "\n" + data.message;
+}
+</script>
+
+</body>
+</html>

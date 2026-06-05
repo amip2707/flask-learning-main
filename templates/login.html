@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #d2edf9 50%, #b5e2fa 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.box {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    box-shadow: 0 30px 70px rgba(3, 4, 94, 0.07), 
+                0 10px 24px rgba(3, 4, 94, 0.03),
+                0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(181, 226, 250, 0.35);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.box:hover {
+    transform: translateY(-2px);
+}
+
+/* Badge Layout Header Alignment Fix */
+.box::before {
+    content: "Login Account";
+    display: block;
+    width: max-content;
+    color: #0077b6;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    background: rgba(0, 119, 182, 0.06);
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #03045e;
+    margin: 0 0 4px;
+    letter-spacing: -0.8px;
+}
+
+.sub {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 24px;
+    font-weight: 400;
+}
+
+/* Structural Layout Wrapper for Label + Input blocks */
+.field {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #03045e;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.field input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #03045e;
+    outline: none;
+    font-weight: 500;
+    margin-top: 0; /* Overriding previous relative top margins */
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.field input::placeholder {
+    color: #a0aec0;
+    font-weight: 400;
+}
+
+.field input:hover {
+    border-color: #cbd5e1;
+    background: #f1f5f9;
+}
+
+.field input:focus {
+    border-color: #0077b6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.14);
+}
+
+/* Checkbox Alignment Control */
+.show-password {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #475569;
+    font-weight: 500;
+    margin-top: 12px;
+    cursor: pointer;
+    gap: 8px; /* Standard modular spatial gaps */
+}
+
+.show-password input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: #0077b6; /* Matches theme perfectly */
+}
+
+/* Forgot Password Text Alignment */
+.forgot {
+    text-align: right;
+    margin-top: -18px; /* Brings it online relative to checkbox section */
+    margin-bottom: 24px;
+}
+
+.forgot a {
+    font-size: 13px;
+    color: #0077b6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.forgot a:hover {
+    color: #03045e;
+    text-decoration: underline;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #0077b6 0%, #054a91 50%, #03045e 100%);
+    background-size: 200% auto;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 5px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 14px rgba(3, 4, 94, 0.18);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+button:hover {
+    background-position: right center;
+    box-shadow: 0 8px 22px rgba(3, 4, 94, 0.28);
+    transform: translateY(-1.5px);
+}
+
+button:active {
+    transform: translateY(0.5px) scale(0.985);
+    box-shadow: 0 3px 10px rgba(3, 4, 94, 0.2);
+}
+
+#result {
+    margin-top: 16px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    min-height: 20px;
+    transition: all 0.2s ease;
+}
+
+/* Footer Navigation Layout styling */
+.footer {
+    text-align: center;
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 24px;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+
+.footer a {
+    color: #0077b6;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 4px;
+    transition: color 0.2s ease;
+}
+
+.footer a:hover {
+    color: #03045e;
+    text-decoration: underline;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+    <h1>Welcome Back</h1>
+    <p class="sub">Sign in to continue</p>
+
+    <div class="field">
+        <label>Username</label>
+        <input
+            type="text"
+            id="usernameid"
+            placeholder="Enter username">
+    </div>
+
+    <div class="field">
+        <label>Email</label>
+        <input
+            type="email"
+            id="emailid"
+            placeholder="Enter email">
+    </div>
+
+    <div class="field">
+        <label>Password</label>
+        <input
+            type="password"
+            id="passwordid"
+            placeholder="Enter password">
+    </div>
+
+    <div class="show-password">
+        <input type="checkbox" onclick="togglePassword()">
+        Show Password
+    </div>
+
+    <div class="forgot">
+        <a href="/forgot-password">Forgot Password?</a>
+    </div>
+
+    <button onclick="loginUser()">Sign In</button>
+
+    <p id="result"></p>
+
+    <p class="footer">
+        New user?
+        <a href="/">Create Account</a>
+    </p>
+
+</div>
+
+<script>
+
+function togglePassword(){
+
+    let passwordField =
+        document.getElementById("passwordid");
+
+    if(passwordField.type === "password"){
+        passwordField.type = "text";
+    }
+    else{
+        passwordField.type = "password";
+    }
+}
+
+async function loginUser(){
+
+    let username =
+        document.getElementById("usernameid").value;
+
+    let email =
+        document.getElementById("emailid").value;
+
+    let password =
+        document.getElementById("passwordid").value;
+
+    let result =
+        document.getElementById("result");
+
+    if(!username || !email || !password){
+
+        result.innerText =
+            "Please fill all fields";
+
+        result.style.color = "red";
+
+        return;
+    }
+
+    try{
+
+        let response = await fetch(
+            "http://127.0.0.1:5000/login",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            }
+        );
+
+        let data = await response.json();
+
+        if(data.status === "success"){
+
+            // NORMAL USER STORAGE
+            localStorage.setItem(
+                "username",
+                username
+            );
+
+            localStorage.setItem(
+                "email",
+                email
+            );
+
+            // ADMIN LOGIN
+            if(data.role === "admin"){
+
+                localStorage.setItem(
+                    "admin",
+                    username
+                );
+
+                window.location.href =
+                    "/admin";
+            }
+
+            // NORMAL USER LOGIN
+            else{
+
+                window.location.href =
+                    "/home";
+            }
+        }
+
+        else{
+
+            result.innerText =
+                data.message;
+
+            result.style.color =
+                "red";
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        result.innerText =
+            "Server not reachable";
+
+        result.style.color =
+            "red";
+    }
+}
+
+</script>
+
+</body>
+</html>

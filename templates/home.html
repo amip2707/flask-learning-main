@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - MegaStore</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+/* GLOBAL STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f8fafc;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 1. TOP NAV WORKSPACE NAVBAR */
+.navbar {
+    background: #ffffff;
+    padding: 16px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(3, 4, 94, 0.03);
+    border-bottom: 1px solid rgba(181, 226, 250, 0.3);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #03045e;
+    letter-spacing: -0.8px;
+}
+
+.logo span {
+    color: #0077b6;
+}
+
+/* Navbar Search Option */
+.search-container {
+    flex: 0 1 450px;
+    margin: 0 30px;
+    position: relative;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 11px 18px;
+    background: #f1f5f9;
+    border: 1.5px solid transparent;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #03045e;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.search-container input:focus {
+    background: #ffffff;
+    border-color: #0077b6;
+    box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.12);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.cart-btn {
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #0077b6;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+/* Premium Logout Button to match navigation styles */
+button.logout-btn {
+    background: #ffffff;
+    color: #ef4444;
+    border: 1.5px solid #fecaca;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button.logout-btn:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+/* 2. HEADER DYNAMIC WELCOME MESSAGE BANNER */
+.welcome-banner {
+    margin: 30px 8% 10px;
+    background: linear-gradient(135deg, #03045e 0%, #0077b6 100%);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+}
+
+/* Target ID for your Backend/LocalStorage Greeting text */
+.welcome-banner h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 6px;
+}
+
+.welcome-banner p {
+    color: #b5e2fa;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+/* 3. MULTIPLE SHOPPING SECTIONS LAYOUT */
+.shop-section {
+    padding: 30px 8% 10px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #03045e;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.product-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 30px rgba(3, 4, 94, 0.05);
+    border-color: #b5e2fa;
+}
+
+.product-image {
+    width: 100%;
+    height: 170px;
+    background: #f8fafc;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 44px;
+    margin-bottom: 14px;
+    border: 1px solid #f1f5f9;
+}
+
+.product-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #03045e;
+    margin-bottom: 14px;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    background: #0077b6;
+    color: white;
+    border: none;
+    padding: 11px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: auto;
+    transition: background 0.2s;
+}
+
+.add-to-cart-btn:hover {
+    background: #03045e;
+}
+
+/* RESPONSIVE RESPONSIVENESS */
+@media (max-width: 768px) {
+    .navbar { padding: 16px 5%; }
+    .search-container { display: none; } /* Standard collapse pattern for mobile */
+    .shop-section { padding: 20px 5%; }
+    .welcome-banner { margin: 20px 5% 10px; padding: 30px 20px; }
+    .welcome-banner h1 { font-size: 26px; }
+}
+</style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Mega<span>Store</span></div>
+        
+        <div class="search-container">
+            <input type="text" placeholder="Search for electronics, devices, active clothes...">
+        </div>
+
+        <div class="nav-actions">
+            <div class="cart-btn">🛒<span class="cart-count">0</span></div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="welcome-banner">
+        <h1 id="msg">Loading User Profile...</h1>
+        <p>Explore today's trending updates and curated item recommendations loaded for your session.</p>
+    </div>
+
+    <section class="shop-section">
+        <h2 class="section-title">⚡ Best of Electronics</h2>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">🎧</div>
+                <div class="product-title">Noise Cancelling Wireless Headphones</div>
+                <div class="product-price">₹2,999</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">⌚</div>
+                <div class="product-title">Smart Fitness Watch Series 5 v2</div>
+                <div class="product-price">₹4,499</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">💻</div>
+                <div class="product-title">UltraSlim Portable Laptop Core i5</div>
+                <div class="product-price">₹49,999</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🔊</div>
+                <div class="product-title">Waterproof Outdoor Bluetooth Speaker</div>
+                <div class="product-price">₹1,849</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="shop-section" style="padding-bottom: 60px;">
+        <h2 class="section-title">👟 Lifestyle & Fashion</h2>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">🏃‍♂️</div>
+                <div class="product-title">Lightweight Breathable Running Shoes</div>
+                <div class="product-price">₹3,199</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🕶️</div>
+                <div class="product-title">Polarized Aviator Classic Sunglasses</div>
+                <div class="product-price">₹1,249</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🎒</div>
+                <div class="product-title">Water-Resistant Daily College Backpack</div>
+                <div class="product-price">₹1,599</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🧥</div>
+                <div class="product-title">Premium Winter Casual Zipper Jacket</div>
+                <div class="product-price">₹2,499</div>
+                <button class="add-to-cart-btn" onclick="updateCartCount()">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+<script>
+
+// 🔐 AUTOMATED RE-ROUTE USER PROTECTION INTERCEPTOR
+let username = localStorage.getItem("username");
+
+if(!username){
+    window.location.href = "/login";
+}
+
+// DYNAMICALLY BIND GREETING PROFILE TEXT 
+document.getElementById("msg").innerText = "Welcome back, " + username + "! ✨";
+
+// LOCAL INTERACTIVE CART STATE RE-RENDER FUNCTION 
+let count = 0;
+function updateCartCount(){
+    count++;
+    document.querySelector(".cart-count").innerText = count;
+}
+
+// LOGOUT OPERATION TERMINATOR ENGINE CALLS
+function logout(){
+    console.log("logout clicked");
+
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+
+    window.location.href = "/login";
+}
+
+</script>
+
+</body>
+</html>
