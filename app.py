@@ -11,21 +11,16 @@ from models import User
 app = Flask(__name__)
 CORS(app)
 
-# ==========================
-# DATABASE CONFIGURATION
-# ==========================
-
+# DATABASE CONFIG
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-# ==========================
 # CREATE TABLES
-# ==========================
-
 with app.app_context():
     db.create_all()
+
 
 # ==========================
 # PAGE ROUTES
@@ -55,6 +50,7 @@ def admin_page():
 def forgot_password_page():
     return render_template('forgot_password.html')
 
+
 # ==========================
 # REGISTER API
 # ==========================
@@ -70,25 +66,25 @@ def register():
     password = reqdata.get("password")
     phone = reqdata.get("phone")
 
-    if not name or not name.strip():
+    if not name:
         return jsonify({
             "status": "error",
             "message": "Invalid Name"
         })
 
-    if not username or not username.strip():
+    if not username:
         return jsonify({
             "status": "error",
             "message": "Invalid Username"
         })
 
-    if not email or not email.strip():
+    if not email:
         return jsonify({
             "status": "error",
             "message": "Invalid Email"
         })
 
-    if not password or not password.strip():
+    if not password:
         return jsonify({
             "status": "error",
             "message": "Invalid Password"
@@ -132,6 +128,7 @@ def register():
         "message": "Registration Successful"
     })
 
+
 # ==========================
 # LOGIN API
 # ==========================
@@ -144,24 +141,6 @@ def login():
     username = reqdata.get("username")
     email = reqdata.get("email")
     password = reqdata.get("password")
-
-    if not username or not username.strip():
-        return jsonify({
-            "status": "error",
-            "message": "Invalid Username"
-        })
-
-    if not email or not email.strip():
-        return jsonify({
-            "status": "error",
-            "message": "Invalid Email"
-        })
-
-    if not password or not password.strip():
-        return jsonify({
-            "status": "error",
-            "message": "Invalid Password"
-        })
 
     user = User.query.filter_by(
         username=username,
@@ -183,6 +162,7 @@ def login():
             "message": "Wrong Password"
         })
 
+    # ADMIN LOGIN
     if user.role == "admin":
         return jsonify({
             "status": "success",
@@ -191,6 +171,7 @@ def login():
             "username": user.username
         })
 
+    # NORMAL USER LOGIN
     return jsonify({
         "status": "success",
         "message": "Login Successful",
@@ -198,41 +179,10 @@ def login():
         "username": user.username
     })
 
+
 # ==========================
-# TEMP FORGOT PASSWORD APIs
+# RESET PASSWORD
 # ==========================
-
-@app.route('/send-otp', methods=['POST'])
-def send_otp():
-
-    reqdata = request.get_json()
-
-    email = reqdata.get("email")
-
-    user = User.query.filter_by(
-        email=email
-    ).first()
-
-    if not user:
-        return jsonify({
-            "status": "error",
-            "message": "Email not registered"
-        })
-
-    return jsonify({
-        "status": "success",
-        "message": "OTP Sent Successfully"
-    })
-
-
-@app.route('/verify-otp', methods=['POST'])
-def verify_otp():
-
-    return jsonify({
-        "status": "success",
-        "message": "OTP Verified Successfully"
-    })
-
 
 @app.route('/reset-password', methods=['POST'])
 def reset_password():
@@ -242,9 +192,7 @@ def reset_password():
     email = reqdata.get("email")
     password = reqdata.get("password")
 
-    user = User.query.filter_by(
-        email=email
-    ).first()
+    user = User.query.filter_by(email=email).first()
 
     if not user:
         return jsonify({
@@ -263,9 +211,6 @@ def reset_password():
         "message": "Password Updated Successfully"
     })
 
-# ==========================
-# RUN APP
-# ==========================
 
 if __name__ == "__main__":
     app.run(debug=True)
